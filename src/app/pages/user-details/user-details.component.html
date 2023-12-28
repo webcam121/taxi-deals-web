@@ -1,0 +1,105 @@
+<div class="content-wrapper">
+  <div class="main-content">
+    <div class="container-fluid">
+      <div class="boxes">
+        <div class="row" >
+          <div class="col-md-10">
+             <h3 translate> User Details</h3>
+            <!-- <p>
+                            <button (click)="addDriver()" type="button" class="btn btn-success" translate>Add New Driver</button>
+                        </p> -->
+              <div class="row">
+                 <div class="col-4" style="padding-top: 10px;">
+                  <select id="role" class="form-control"
+                  (change)="selectRole($event.target.value)">
+                  <option value="" translate>Select </option>
+                  <option value="NAME" translate>Search By Name</option>
+                  <option value="PHONENUMBER" translate>Search by Phonenumber</option>
+                </select>
+              </div>
+               <div class="col-4">
+                <nav class="navbar" style="background-color:white">
+                    <input class="form-control" font-color="#000" placeholder="Filter Values..." type="text" name="search"
+                      [(ngModel)]="filterText">
+                  </nav></div>
+                  <div class="col-4">
+                    <button data-toggle="modal" style="margin: 7px;" type="button" class="btn btn-info" (click)="getOnlineDetails()"
+                    translate>Search
+                    </button>
+                  </div>
+                </div>
+
+            <div class="content table-responsive table-full-width table-striped">
+              <table class="table table-bordered table-hover">
+                <tr>
+                  <!-- <th class="info" translate>Index</th> -->
+                  <th translate>FirstName</th>
+                  <th translate>LastName</th>
+                  <th translate>Email</th>
+                  <th translate>PhoneNumber</th>
+                  <th translate>Update</th>
+                  <th translate>Role</th>
+                  <th translate>Coupon</th>
+                  <!-- <th translate>Action</th> -->
+                </tr>
+                <tr *ngFor="let exp of (onlineDetails | customfilter : {
+                  firstName: filterText, lastName: filterText, email: filterText, phoneNumber: filterText, creationDate: filterText, role: filterText} : false);let i=index" >
+                   <!--<input  type="hidden" [value]="mydriverId"  />  -->
+                  <!-- <td>{{i+1}}</td> -->
+                  <td>{{exp?.firstName}}</td>
+                  <td>{{exp?.lastName}}</td>
+                  <td>{{exp?.email}}</td>
+                  <td>{{exp?.phoneNumber}}</td>
+                  <td>{{exp?.creationDate}}</td>
+                  <td>{{exp?.role}}</td>
+                  <td>
+                    <button data-toggle="modal" style="margin: 7px;" data-target="#driverInfo" type="button" class="btn btn-info" (click)="applyCoupon(exp, i)"
+                    translate>Apply Coupon
+                    </button>
+                  </td>
+                    <!-- <td style="width: 80px">
+                    <button (click)="onShow(exp.id)" type="button" class="btn btn-info" translate>View</button>
+                  </td> -->
+                </tr>
+
+              </table>
+            </div>
+            <div class="d-flex align-items-center justify-content-center mt-2">
+              <pagination [totalItems]="totalRecords" [(ngModel)]="paginationInfo.pageNumber"
+                 [ngModelOptions]="{ standalone: true }" (pageChanged)="onChanged($event)" class="pagination-sm"
+                 [boundaryLinks]="true" [maxSize]="1"></pagination>
+           </div>
+          </div>
+        </div>
+        <div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="driverInfo"  class="modal fade" >
+  <div class="modal-dialog modal-sm" style="max-width: 505px;">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h4 class="modal-title">Apply Coupon</h4>
+           <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <input class="form-control" font-color="#000" placeholder="Coupon" type="text" name="Coupon"
+          [(ngModel)]="Coupon">
+          <br>
+          <input class="form-control" font-color="#000" placeholder="Percentage" type="number" name="Percentage"
+          [(ngModel)]="Percentage">
+        </div>
+        <div class="modal-footer admin_actionsbtn" style="padding: 0px 20px 20px 0px;">
+           <button type="button" class="btn btn-default" data-dismiss="modal" (click)="addCoupon()"
+              style="margin-top: 0px; ba">
+              Save
+           </button>
+        </div>
+     </div>
+  </div>
+</div>
+

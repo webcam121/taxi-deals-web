@@ -1,0 +1,65 @@
+<div class="content-wrapper">
+
+  <div class="container-fluid">
+
+    <div class="container">
+      <div class="rowl" >
+        <nav class="navbar" style="background-color:white">
+          <input class="form-control" font-color="#000" placeholder="Filter Values..." type="text" name="search"
+            [(ngModel)]="filterText">
+        </nav>
+        <table class="table table table-bordered table-hover">
+
+          <tr>
+            <th (click)="sort('source')" translate>Source
+            </th>
+            <th (click)="sort('destination')" translate>Destination
+            </th>
+            <th (click)="sort('userName')" translate>UserName
+            </th>
+            <th (click)="sort('driverName')" translate>DriverName
+            </th>
+            <th (click)="sort('desc')" translate>Description
+            </th>
+            <th (click)="sort('type')" translate>Cartype
+            </th>
+            <th (click)="sort('rideStatus')" translate>Ride Status
+            </th>
+            <th (click)="sort('userTotalPrice')" translate>User Total Price
+            </th>
+            <th (click)="sort('tax')" translate>Tax
+            </th>
+            <th (click)="sort('percentage')" translate>Percentage
+            </th>
+            <th (click)="sort('startTIme')" translate>Booking Time
+            </th>
+          </tr>
+          <tr *ngFor="let taxi of (taxistatus | customfilter : {
+            source: filterText, userName: filterText, driverName: filterText, desc: filterText,type: filterText,
+            destination: filterText, rideStatus: filterText }: false);let i=index">
+            <td>{{taxi?.source ? taxi?.source : ''}}</td>
+            <td>{{taxi?.destination ? taxi?.destination : ''}}</td>
+            <td>{{taxi?.userName ? taxi?.userName : ''}}</td>
+            <td>{{taxi?.driverName ? taxi?.driverName : ''}}</td>
+            <td>{{taxi?.desc ? taxi?.desc : ''}}</td>
+            <td>{{taxi?.type ? taxi?.type : ''}}</td>
+            <td>{{taxi?.rideStatus ? taxi?.rideStatus : ''}}</td>
+            <td>{{taxi?.userTotalPrice ? taxi?.userTotalPrice : ''}}</td>
+            <td>{{taxi?.tax ? taxi?.tax : ''}}</td>
+            <td>{{taxi?.percentage ? taxi?.percentage : ''}}</td>
+            <td>{{taxi?.startTIme ? (taxi?.startTIme | date: 'MM/dd/yyyy hh:mm:ss a') : ''}}</td>
+          </tr>
+
+        </table>
+        <div class="d-flex align-items-center justify-content-center mt-2" >
+          <pagination [totalItems]="totalRecords" [(ngModel)]="paginationInfo.pageNumber"
+             [ngModelOptions]="{ standalone: true }" (pageChanged)="onChanged($event)" class="pagination-sm"
+             [boundaryLinks]="true" [maxSize]="1"></pagination>
+       </div>
+      </div>
+      <button (click)="routeTo()" type="button" class="btn btn-info" translate>Dashboard</button>
+
+    </div>
+
+  </div>
+</div>

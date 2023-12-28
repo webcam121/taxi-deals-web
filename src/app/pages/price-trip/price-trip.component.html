@@ -1,0 +1,129 @@
+
+<div class="content-wrapper">
+  <div class="main-content">
+    <div class="container-fluid">
+      <div class="boxes" [hidden]="isEdit">
+        <div class="rowl" >
+          <div class="col-md-10">
+            <div class="row" style="padding: 10px;">
+              <div >
+                <div  class="col-12" style="padding-top: 10px;">
+                  <label class="control-label" translate>Category</label>
+                  <select id="category" [(ngModel)]="category" class="form-control" (change)="searchFilter()">
+                    <option value="" disabled translate>Select a category</option>
+                    <option value="TAXI" translate>TAXI</option>
+                    <option value="OUTSTATION">OUTSTATION</option>
+                    <option value="AIRPORT">AIRPORT</option>
+                    <option value="TWOHOURS">2HOUR</option>
+                    <option value="FOURHOURS">4HOUR</option>
+                    <option value="SIXHOURS">6HOUR</option>
+                    <option value="EIGHTHOURS">8HOUR</option>
+                  </select>
+                </div>
+              </div>
+              <div >
+                <div class="col-12" style="padding-top: 10px;">
+                  <label class="control-label" translate>Supplier</label>
+                  <select id="category" [(ngModel)]="supplier" class="form-control" (change)="searchFilter()">
+                    <option value="" disabled translate>Select a Supplier</option>
+                    <option value="{{userRole.data.name}}" translate>{{ userRole?.data?.name ? userRole?.data?.name : ''}}</option>
+                     </select>
+                </div>
+              </div>
+            </div>
+            <div class="content table-responsive table-full-width table-striped">
+              <table class="table table-bordered table-hover">
+                <tr>
+                  <th translate>KM</th>
+                  <th translate>Price</th>
+                  <th translate>Peak Price</th>
+                  <th translate>Base Price</th>
+                  <th translate>Percentage</th>
+                  <th translate>Tax</th>
+                  <th translate>Category</th>
+                  <th translate>Car Type</th>
+                  <!-- <th translate>Action</th> -->
+                </tr>
+                <tr *ngFor="let taxi of myTaxis">
+                  <td>{{taxi?.km}}</td>
+                  <td>{{taxi?.price}}</td>
+                  <td>{{taxi?.peakPrice}}</td>
+                  <td>{{taxi?.basePrice}}</td>
+                  <td>{{taxi?.percentage}}</td>
+                  <td>{{taxi?.tax}}</td>
+                  <td>{{taxi?.category}}</td>
+                  <td>{{taxi?.carType}}</td>
+                  <!-- <td>
+                    <button (click)="editDriver(taxi)" type="button" class="btn btn-info" translate>Update
+                      Price</button>
+                  </td> -->
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <div class="d-flex align-items-center justify-content-center mt-2">
+          <pagination [totalItems]="totalRecords" [(ngModel)]="paginationInfo.pageNumber"
+             [ngModelOptions]="{ standalone: true }" (pageChanged)="onChanged($event)" class="pagination-sm"
+             [boundaryLinks]="true" [maxSize]="1"></pagination>
+       </div>
+      </div>
+      <div>
+        <div class="row" [hidden]="!isEdit">
+          <div class="col-md-10">
+            <h3 translate>Update Price Detail</h3>
+            <form class="form" [formGroup]="pricetripForm">
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="" translate>KM</label>
+                  <!-- <label name="drivername" class="form-control rounded-0"
+                    translate><b>{{driverDetails?.name}}</b></label> -->
+                  <input formControlName="km" name="km" type="text" class="form-control rounded-0"
+                    required />
+                </div>
+                <div class="col-md-6">
+                  <label for="" translate>Price</label>
+                  <!-- <label name="driverPhonenumber" class="form-control rounded-0"
+                    translate><b>{{driverDetails?.driverPhonenumber}}</b></label> -->
+                  <input formControlName="price" name="price" type="text"
+                    class="form-control rounded-0" required />
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="" translate>Peak Price</label>
+                  <input formControlName="peakPrice" name="peakPrice" type="text" class="form-control rounded-0" required />
+                </div>
+                <div class="col-md-6">
+                  <label for="" translate>Base Price</label>
+                  <input formControlName="basePrice" name="basePrice" type="text" class="form-control" required />
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="" translate>Percentage</label>
+                  <input formControlName="percentage" name="percentage" type="text" class="form-control rounded-0"
+                    required />
+                </div>
+                <div class="col-md-6">
+                  <label for="" translate>Tax</label>
+                  <input formControlName="tax" name="tax" type="text" class="form-control " required
+                    minlength="6" />
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <button (click)="updatePricetrip(pricetripForm.value)" type="button" class="btn btn-success"
+                    translate>Update</button>&nbsp;
+                  <button (click)="clearForm()" type="button" class="btn btn-info" translate>Cancel</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

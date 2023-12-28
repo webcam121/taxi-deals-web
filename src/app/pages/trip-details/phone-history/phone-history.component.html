@@ -1,0 +1,61 @@
+<div class="content-wrapper">
+  <div class="main-content">
+    <div class="container-fluid">
+      <div class="boxes">
+        <div>
+          <div class="row" >
+            <div class="col-md-10">
+              <h3 translate>Phone History</h3>
+              <div class="row">
+                  <div class="col-6">
+                  <nav class="navbar" style="background-color:white">
+                      <input class="form-control" font-color="#000" placeholder="Filter Values..." type="text" name="search"
+                        [(ngModel)]="filterText">
+                    </nav></div></div>
+
+              <form class="form">
+                <div class="content table-responsive table-full-width table-striped">
+                  <table class="table table-bordered table-hover">
+                    <tr>
+                      <th translate>Source</th>
+                      <th translate>Destination</th>
+                      <th translate>Driver name</th>
+                      <th translate>Cartype</th>
+                      <th translate>Rideid</th>
+                      <th translate>Username</th>
+                      <th translate>KM</th>
+                      <th translate>GST</th>
+                      <th translate>Service Charge</th>
+                      <th translate>Base Fare</th>
+                      <th translate>Driver Trip Amount</th>
+                    </tr>
+                    <tr *ngFor="let taxi of (pagedItems | customfilter : {
+                      source: filterText, destination: filterText,driverName: filterText,category: filterText,
+                  id: filterText, userName: filterText , km: filterText , tax: filterText, totalPrice: filterText,  percentage: filterText, base: filterText } : false);let i=index">
+                      <td>{{taxi?.source}}</td>
+                      <td>{{taxi?.destination}}</td>
+                      <td>{{taxi?.driverName}}</td>
+                      <td>{{taxi?.category}}</td>
+                      <td>{{taxi?.id}}</td>
+                      <td>{{taxi?.userName}}</td>
+                      <td>{{taxi?.km}}</td>
+                      <td>{{taxi?.tax}}</td>
+                      <td>{{taxi?.percentage}}</td>
+                      <td>{{taxi?.base}}</td>
+                      <td>{{taxi?.totalPrice}}</td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="d-flex align-items-center justify-content-center mt-2" >
+                  <pagination [totalItems]="totalRecords" [(ngModel)]="paginationInfo.pageNumber"
+                     [ngModelOptions]="{ standalone: true }" (pageChanged)="onChanged($event)" class="pagination-sm"
+                     [boundaryLinks]="true" [maxSize]="1"></pagination>
+               </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

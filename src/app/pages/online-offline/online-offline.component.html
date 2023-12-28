@@ -1,0 +1,106 @@
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <p [formGroup]="driverStatusForm">
+            <button [hidden]="mapDataMode === 'online'" class="btn btn-success" (click)="setMapDataMode('online')"
+              translate>Switch to Online Mode</button>
+            <button [hidden]="mapDataMode === 'offline'" class="btn btn-info" (click)="setMapDataMode('offline')"
+              translate>Switch to Offline Mode</button>&nbsp;&nbsp;&nbsp;&nbsp;
+
+              <label for="vehicle1"  style="color: #0ac129;"> <img src="../../assets/img/status/online.png"  style="width: 25px; height: 25px;"/>&nbsp;
+                <input type="checkbox" id="vehicle1" formControlName="driverStart" name="vehicle1" [checked]="true"  value="Bike" (click)="fiterStatus('START', $event.currentTarget.checked)">&nbsp;<strong>ACTIVE : {{ getCount('START')}}</strong></label>&nbsp;&nbsp;
+              <label for="vehicle2" style="color:#e5f901;">  <img src="../../assets/img/status/waiting.png"  style="width: 25px; height: 25px;" />&nbsp;
+                <input type="checkbox" id="vehicle2" formControlName="driverWaiting" name="vehicle2" [checked]="true"  value="Car" (click)="fiterStatus('WAITING', $event.currentTarget.checked)">&nbsp; <strong>RIDING : {{ getCount('WAITING')}} </strong></label>&nbsp;&nbsp;
+               <label for="vehicle3" style="color:#f80101;">  <img src="../../assets/img/status/offline.png"  style="width: 25px; height: 25px;" />&nbsp;
+                <input type="checkbox" id="vehicle3" formControlName="driverOffline" name="vehicle3" [checked]="true"  value="Boat" (click)="fiterStatus('STOP', $event.currentTarget.checked)">&nbsp; <strong>OFFLINE : {{ getCount('STOP')}}</strong></label>&nbsp;&nbsp;
+                <label for="vehicle3" style="color: #2332e2;"> &nbsp; <strong>TOTAL RECORDS : {{ getCount('')}}</strong></label>&nbsp;&nbsp;
+
+          </p>
+          <!-- <div class="customloader">
+            <img src="../../../assets//img//loading.gif">
+        </div> -->
+          <div class="map">
+            <!-- <agm-map [zoom]="8" [latitude]="lat" [longitude]="lng" [fullscreenControl]='true' [mapTypeControl]='true'> -->
+            <agm-map [zoom]="6" [latitude]="15.5" [longitude]="77.5" [fullscreenControl]='true' [mapTypeControl]='true'>
+              <div *ngIf="isOnlineMode">
+                <div *ngFor="let onlineData of onlineDatas">
+                  <agm-marker *ngIf="onlineData.presence$ | async as presence; else noneOnlineData"
+                    [latitude]="onlineData?.lat" [longitude]="onlineData?.lng" [markerDraggable]='false'
+                    [iconUrl]="{url: onlineData?.imageUrl, scaledSize: {width: 30, height: 30}}">
+                    <agm-info-window [disableAutoPan]="false">
+                      Name Online: <strong>{{onlineData?.name}}</strong><br>
+                      CarType: <strong>{{onlineData?.cartype}}</strong><br>
+                      PhoneNumber: <strong>{{onlineData?.phoneNumber}}</strong><br>
+                      Login Status: <strong>{{onlineData?.driverStatus}}</strong>
+                      <!-- <app-vehicle-status [vehicleId]="onlineData?.id">
+                        </app-vehicle-status> -->
+                    </agm-info-window>
+                  </agm-marker>
+                  <ng-template #noneOnlineData>
+                    <agm-marker [latitude]="onlineData?.lat" [longitude]="onlineData?.lng" [markerDraggable]='false'
+                      [iconUrl]="{url: onlineData?.imageUrl, scaledSize: {width: 30, height: 30}}">
+                      <agm-info-window [disableAutoPan]="false">
+                        Name: <strong>{{onlineData?.name}}</strong><br>
+                        CarTyps: <strong>{{onlineData?.cartype}}</strong><br>
+                        PhoneNumber: <strong>{{onlineData?.phoneNumber}}</strong><br>
+                        <!-- Login Status: <strong>{{onlineData.driverStatus}}</strong><br> -->
+                        <!-- Login Status: {{onlineData.driverStatus}}<app-user-status [uid]="onlineData.driverId">
+                          </app-user-status> -->
+                      </agm-info-window>
+                    </agm-marker>
+                  </ng-template>
+                </div>
+
+              </div>
+
+              <div *ngIf="!isOnlineMode">
+                <div *ngFor="let offlineData of offlineDatas">
+                  <agm-marker *ngIf="offlineData.presence$ | async as presence; else noneOfflineData"
+                    [latitude]="offlineData.latitude" [longitude]="offlineData.longitude" [markerDraggable]='false'
+                    [iconUrl]="{url: imageStatus(offlineData), scaledSize: {width: 30, height: 30}}">
+                    <agm-info-window [disableAutoPan]="false">
+                      Name Offline: <strong>{{offlineData.name}}</strong><br>
+                      CarTyps: <strong>{{offlineData.cartype}}</strong><br>
+                      PhoneNumber: <strong>{{offlineData.phoneNumber}}</strong><br>
+                      <!-- Login Status: <strong>{{onlineData.driverStatus}}</strong><br> -->
+                      <!-- Login Status: {{offlineData.driverStatus}}<app-user-status [uid]="offlineData.driverId">
+                        </app-user-status> -->
+                    </agm-info-window>
+                  </agm-marker>
+                  <ng-template #noneOfflineData>
+                    <agm-marker [latitude]="offlineData.latitude" [longitude]="offlineData.longitude"
+                      [markerDraggable]='false'
+                      [iconUrl]="{url: imageStatus(offlineData), scaledSize: {width: 30, height: 30}}">
+                      <agm-info-window [disableAutoPan]="false">
+                        Name: <strong>{{offlineData.name}}</strong><br>
+                        CarTyps: <strong>{{offlineData.cartype}}</strong><br>
+                        PhoneNumber: <strong>{{offlineData.phoneNumber}}</strong><br>
+                        <!-- Login Status: <strong>{{onlineData.driverStatus}}</strong><br> -->
+                        <!-- Login Status: {{offlineData.driverStatus}}<app-user-status [uid]="offlineData.driverId">
+                          </app-user-status> -->
+                      </agm-info-window>
+                    </agm-marker>
+                  </ng-template>
+                </div>
+              </div>
+            </agm-map>
+          </div>
+          <div id="map" style="width: 100%; height: 500px; display: none;" > Testing</div>
+          <agm-map style="height: 300px;" [latitude]="currentlat" [longitude]="currentlng" [zoom]="zoom">
+            <agm-marker  [latitude]="currentlat" [longitude]="currentlng"></agm-marker>
+             </agm-map>
+             <h5>Address: {{currentLocation}}</h5>
+             <h5>Address: {{getAddress}}</h5>
+             <div>Latitude: {{currentlat}}</div>
+             <div>Longitude: {{currentlng}}</div>
+          <button (click)="get()">getCurrentLocation</button>
+          <div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

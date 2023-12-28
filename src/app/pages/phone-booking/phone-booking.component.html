@@ -1,0 +1,57 @@
+<div class="content-wrapper">
+  <div class="main-content">
+    <div class="container-fluid">
+      <div class="boxes">
+
+        <div class="col-md-12">
+          <div class="col-md-10">
+            <h3 translate>Phone Booking </h3>
+            <div class="rowl">
+              <nav class="navbar" style="background-color:white">
+                <input class="form-control" font-color="#000" placeholder="Filter Values..." type="text" name="search"
+                  [(ngModel)]="filterText">
+              </nav>
+            </div>
+          </div>
+          <div class="content table-responsive table-full-width table-striped">
+            <table class="table table-bordered table-hover">
+              <tr>
+                <!-- <th class="info" translate>Index</th> -->
+                <th translate>Source</th>
+                <th translate>Destination</th>
+                <th translate>User Phone Number</th>
+                <th translate>Driver Phone Number</th>
+                <th translate>VechileNumber</th>
+                <th translate>BookingId</th>
+                <th translate>Name</th>
+                <th translate>Category</th>
+                <th translate>UserName</th>
+              </tr>
+              <!-- <tr *ngFor="let exp of contact ;let i=index"> -->
+              <tr *ngFor="let exp of (pagedItems | customfilter : {source: filterText,
+                destination: filterText, userPhoneNumber: filterText , driverPhoneNumber: filterText ,
+                VechileNumber: filterText  , bookingId: filterText, name: filterText,
+                category: filterText, userName: filterText} : false);let i=index">
+                <!-- <td>{{i+1}}</td> -->
+                <td>{{exp?.source}}</td>
+                <td>{{exp?.destination}}</td>
+                <td>{{exp?.userPhoneNumber}}</td>
+                <td>{{exp?.driverPhoneNumber}}</td>
+                <td>{{exp?.VechileNumber}}</td>
+                <td>{{exp?.bookingId}}</td>
+                <td>{{exp?.name}}</td>
+                <td>{{exp?.category}}</td>
+                <td>{{exp?.userName}}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="d-flex align-items-center justify-content-center mt-2">
+            <pagination [totalItems]="totalRecords" [(ngModel)]="paginationInfo.pageNumber"
+               [ngModelOptions]="{ standalone: true }" (pageChanged)="onChanged($event)" class="pagination-sm"
+               [boundaryLinks]="true" [maxSize]="1"></pagination>
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

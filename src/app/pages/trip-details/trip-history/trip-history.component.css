@@ -1,0 +1,9 @@
+.ngForm {
+  height: 400px;
+}
+.action {
+  padding-right: 8px;
+}
+.table-responsive {
+  width: 122% !important;
+}
